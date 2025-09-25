@@ -1,3 +1,4 @@
+import { createPost } from "@/actions/actions.js"
 import { prisma } from "../../../lib/db.js"
 import Link from "next/link"
 
@@ -6,7 +7,7 @@ export default async function Page() {
     // const data = await response.json();
     
     const posts = await prisma.post.findMany()
-    console.log(posts)
+
 
     return (
         <div className="text-center pt 12">
@@ -18,6 +19,27 @@ export default async function Page() {
                     <Link href={`posts/${post.id}`} className="text-xl text-blue-500 font-semibold">{post.title}</Link>
                 </li>
             ))}</ul>
+
+             <form action={createPost} className="flex flex-col space-y-4 max-w-sm mx-auto p-4">
+                <input
+                    type="text"
+                    placeholder="Title"
+                    name="title"
+                    className="border border-gray-300 rounded p-2"
+                />
+                <textarea
+                    type="text"
+                    placeholder="Content"
+                    name="content"
+                    className="border border-gray-300 rounded p-2"
+                />
+                <button
+                    type="submit"
+                    className="bg-blue-500 text-white rounded p-2"
+                >
+                    Submit
+                </button>
+            </form>
         </div>
     )
 }
